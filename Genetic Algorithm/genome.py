@@ -1,6 +1,7 @@
 import random
 from copy import deepcopy
 from math import ceil
+import numpy as np
 
 
 class Genome:
@@ -28,20 +29,20 @@ class Genome:
         self.fitness += self.distance_map[self.genome[self.number_of_cities - 2]][self.starting_city];
 
 
-def select_a_parent(pop):
+def selection(pop, rate):
+    size = rate * len(pop)
     weights = []
     sum_fitness = sum(genome.fitness for genome in pop)
     for genome in pop:
         weights.append(genome.fitness / sum_fitness)
-    return random.choices(pop, weights)
+    return random.choices(pop, weights, k=int(ceil(size)))
 
 
-def selection(pop, rate):
-    parents = []
-    size = len(pop) * rate
-    for i in range(0, int(ceil(size))):
-        parents.append(select_a_parent(pop))
-    return parents
+def best_of_pop(pop):
+    best_fit = min([gene.fitness for gene in pop])
+    for gene in pop:
+        if gene.fitness == best_fit:
+            return gene
 
 
 if __name__ == '__main__':
@@ -72,9 +73,9 @@ if __name__ == '__main__':
     for i in range(0, pop_size):
         pop.append(Genome(len(distance_map), 0, distance_map))
 
-    print(type(pop[0]))
+    print(pop[1].genome)
+    print(Genome(len(distance_map), 0, distance_map).genome)
 
+    best = best_of_pop(pop)
+    print(best.fitness,best.genome)
     parents = selection(pop, selection_rate)
-    print(type(parents))
-    print(parents[0])
-    print(len(parents))
