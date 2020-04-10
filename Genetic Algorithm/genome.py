@@ -1,7 +1,6 @@
 import random
 from copy import deepcopy
 from math import ceil
-import numpy as np
 
 
 class Genome:
@@ -17,8 +16,8 @@ class Genome:
         self.calculate_fitness()
 
     def random_result(self):
-        for i in range(0, self.number_of_cities):
-            self.genome.append(i) if i != self.starting_city else 0
+        for x in range(0, self.number_of_cities):
+            self.genome.append(x) if x != self.starting_city else 0
         random.shuffle(self.genome)
 
     def calculate_fitness(self):
@@ -69,13 +68,14 @@ if __name__ == '__main__':
 
 
     distance_map = read_txt("29_cities.txt")
+    print(distance_map)
     pop = []
     for i in range(0, pop_size):
         pop.append(Genome(len(distance_map), 0, distance_map))
 
-    print(pop[1].genome)
+    print(len(pop[3].genome))
     print(Genome(len(distance_map), 0, distance_map).genome)
 
-    best = best_of_pop(pop)
-    print(best.fitness,best.genome)
+    best = deepcopy(best_of_pop(pop))
+    print(best.fitness, best.genome)
     parents = selection(pop, selection_rate)
