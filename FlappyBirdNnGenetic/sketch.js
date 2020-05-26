@@ -1,70 +1,107 @@
 // The flappy bird environment coded by: Daniel Shiffman
 // http://codingtra.in
-// Code for: https://youtu.be/cXgA1d_E-jY&
+// Code of environment for: https://youtu.be/cXgA1d_E-jY&
 
-//Added neuroevolution process by @iboraham
+//Added neuroevolution process by @iboraham - github
 let birds = [];
 let pipes = [];
 let activeBirds = [];
 let counter = 0;
-let le = 10
+const generationSize = 500;
+let scoreLimit = 10000;
+let bestScore = 0;
+// Interface elements
+let speedSlider;
+let speedSpan;
+let generationSpan;
+let bestScoreSpan;
+let bestBird;
+let generationCounter = 1;
+let imgBird;
+let imgPipe;
+let imgBackground;
+
+function preload() {
+  imgBird = loadImage('img/bird.png');
+  imgPipe = loadImage('img/pipe.png');
+  imgBackground = loadImage('img/background.png');
+}
 
 function setup() {
-  createCanvas(640, 480);
-  for (var i = 0; i < le; i++) {
+  let canvas = createCanvas(640, 480);
+  canvas.parent('canvascontainer')
+  setupMyCanvas();
+  speedSlider = select('#speedSlider');
+  speedSpan = select('#speed');
+  generationSpan = select('#gen');
+  bestScoreSpan = select('#ahs');
+}
+
+function setupMyCanvas() {
+  for (var i = 0; i < generationSize; i++) {
     birds[i] = new Bird();
-    activeBirds[i] = birds[i];
+    activeBirds[i] = birds[i].copy();
   }
   pipes.push(new Pipe());
 }
 
 function draw() {
-  background(0);
-
-  for (var i = pipes.length - 1; i >= 0; i--) {
-    pipes[i].show();
-    pipes[i].update();
-
-    if (pipes[i].offscreen()) {
-      pipes.splice(i, 1);
+  for (let n = 0; n < speedSlider.value(); n++) {
+    speedSpan.html(speedSlider.value() + 'x');
+    if (counter % 75 == 0 && counter != 0) {
+      pipes.push(new Pipe());
     }
-  }
+    counter = counter + 1;
 
-  for (var bird of activeBirds) {
-    bird.update();
-    bird.show();
-    bird.decide(pipes);
-  }
+    // Refresh background
+    background(imgBackground);
 
-  // Kill the bird if hits the pipe
-  for (let i = 0; i < pipes.length; i++) {
-    for (let j = 0; j < activeBirds.length; j++) {
-      if (pipes[i].hits(activeBirds[j])) {
-        killBird(j);
+    generationSpan.html(generationCounter);
+
+    //Show pipe and update their move in every frame
+    for (var i = pipes.length - 1; i >= 0; i--) {
+      pipes[i].show();
+      pipes[i].update();
+
+      if (pipes[i].offscreen()) {
+        pipes.splice(i, 1);
+      }
+      // Kill the bird if hits the pipe or go down of screen
+      for (let j = 0; j < activeBirds.length; j++) {
+        if (pipes[i].hits(activeBirds[j]) || activeBirds[j].y >= height) {
+          killBird(j);
+        }
+      }
+    }
+    for (var bird of activeBirds) {
+      // Refresh bird moves
+      bird.update();
+      bird.show();
+      //decide in every frame
+      bird.decide(pipes);
+      if (bird.y <= 0) {
+        bird.y = 0;
+      }
+      if (bird.score == scoreLimit) {
+        let div = createDiv('----Reached score 2k---- ').size(400, 100);
+        div.html('bestScore reached at generation:' + generationCounter, true);
+        noLoop();
+      }
+      if (activeBirds.length == 1) {
+        if (bird.score > bestScore) {
+          bestBird = bird.copy();
+          bestScore = bird.score;
+          bestScoreSpan.html(bestScore);
+          //console.log(bestScore, generationCounter);
+        }
       }
     }
   }
-
-  // Kill bird if go down of screen
-  for (let bird of activeBirds) {
-    if (bird.y >= height) {
-      killBird(activeBirds.indexOf(bird))
-    }
-  }
-
-
   if (activeBirds.length == 0) {
-    birds = createGeneration(birds)
-    for (var i = 0; i < bird.length; i++) {
-      activeBirds[i] = birds[i];
-    }
+    createGeneration();
+    generationCounter++;
+    setupMyCanvas();
   }
-
-  if (counter % 75 == 0 && counter != 0) {
-    pipes.push(new Pipe());
-  }
-  counter = counter + 1;
-  //console.log(frameCount);
 }
 
 function killBird(i) {

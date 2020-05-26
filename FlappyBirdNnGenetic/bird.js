@@ -5,21 +5,19 @@ function Bird(decisionMaker) {
   this.gravity = 0.7;
   this.lift = -12;
   this.velocity = 0;
-
-  if (decisionMaker instanceof SNeuralNetwork) {
-    this.decisionMaker = decisionMaker.copy();
-    //this.decisionMaker.mutate(mutate);
-  } else {
-    this.decisionMaker = new SNeuralNetwork(5);
-  }
-
   this.score = 0;
   this.fitness = 0;
+  if (decisionMaker instanceof NeuralNetwork) {
+    this.decisionMaker = decisionMaker.copy();
+  } else {
+    this.decisionMaker = new NeuralNetwork(5, 8, 2);
+  }
 
 
   this.show = function() {
-    fill(255);
-    ellipse(this.x, this.y, 32, 32);
+    stroke(255);
+    fill(GRAY);
+    image(imgBird, this.x, this.y, 64, 64);
   }
 
   this.up = function() {
@@ -38,24 +36,31 @@ function Bird(decisionMaker) {
   this.decide = function(pipes) {
     //5 inputs
     let inputs = []
-    inputs[0] = map(this.x, this.x, width, -1, 1);
-    inputs[1] = map(pipes[0].top, 0, height, -1, 1);
-    inputs[2] = map(pipes[0].bottom, 0, height, -1, 1);
-    inputs[3] = map(this.y, 0, height, -1, 1);
-    inputs[4] = map(this.velocity, -5, 5, 0, 1);
-    this.decisionMaker.decide(inputs);
-    decision = this.decisionMaker.outputs;
-    if (decision == 1) {
-      this.up();
+    if (pipes.length != 0) {
+      inputs[0] = map(this.x, this.x, width, -1, 1);
+      inputs[1] = map(pipes[0].top, 0, height, -1, 1);
+      inputs[2] = map(pipes[0].bottom, 0, height, -1, 1);
+      inputs[3] = map(this.y, 0, height, -1, 1);
+      inputs[4] = map(this.velocity, -5, 5, 0, 1);
+      let decision = this.decisionMaker.predict(inputs);
+      if (decision[0] > decision[1] && this.velocity >= 0) {
+        this.up();
+      }
+    } else {
+      if (counter % 15 == 0 && counter != 0) {
+        this.up();
+      }
     }
+
   }
 
-  this.copy = function(bird) {
+  this.copy = function() {
     return new Bird(this.decisionMaker);
   }
 
-  this.bottomTop = function() {
-    return (this.y > height || this.y < 0);
+  this.mutate = function() {
+    this.brain.mutate(0.1);
   }
+
 
 }

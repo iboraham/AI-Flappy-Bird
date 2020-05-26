@@ -5,12 +5,12 @@ class SNeuralNetwork {
   constructor(x) {
     if (x instanceof SNeuralNetwork) {
       let t = x;
-      this.weights = a.weights.copy()
+      this.weights_ho = t.weights_ho.slice()
     } else {
-      this.weights = []
+      this.weights_ho = []
       if (x != 0) {
         for (var i = 0; i < x; i++) {
-          this.weights[i] = random(-1, 1);
+          this.weights_ho[i] = random(-1, 1);
         }
       }
     }
@@ -19,10 +19,11 @@ class SNeuralNetwork {
   //guess
   decide(inputs) {
     let sum = 0;
-    for (var i = 0; i < this.weights.length; i++) {
-      sum += this.weights[i] + inputs[i];
+    for (var i = 0; i < this.weights_ho.length; i++) {
+      sum += this.weights_ho[i] + inputs[i];
     }
     this.outputs = this.sign(sum);
+    return this.outputs
   }
 
   //Activation
@@ -41,7 +42,7 @@ class SNeuralNetwork {
       errorAr[i] = targets[i] - input[i];
     }
 
-    for (let i = 0; i < this.weights.length; i++) {
+    for (let i = 0; i < this.weights_ho.length; i++) {
       this.weigth = this.weight + errorAr[i] * this.learningRate;
     }
   }

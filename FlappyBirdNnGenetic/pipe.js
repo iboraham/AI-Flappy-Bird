@@ -1,5 +1,5 @@
 function Pipe() {
-  this.spacing = 175;
+  this.spacing = 145;
   this.top = random(height / 6, 3 / 4 * height);
   this.bottom = height - (this.top + this.spacing);
   this.x = width;
@@ -20,7 +20,7 @@ function Pipe() {
   }
 
   this.show = function() {
-    fill(255);
+    fill(0);
     if (this.highlight) {
       fill(255, 0, 0);
     }

@@ -2,23 +2,26 @@
 <html>
 
 <head>
-  <script src="p5.min.js"></script>
-  <script src="p5.dom.min.js"></script>
-  <script src="p5.sound.min.js"></script>
+  <script language="javascript" type="text/javascript" src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.min.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
   <meta charset="utf-8">
 
 </head>
 
 <body>
-  <script src="nn-i.js"></script>
+  <script src="customLib/nn-i.js"></script>
   <script src="sketch.js"></script>
   <script src="pipe.js"></script>
   <script src="bird.js"></script>
-  <script src="ga.js"></script>
+  <script src="customLib/ga.js"></script>
   <script src="lib/nn.js"></script>
   <script src="lib/matrix.js"></script>
-
+  <div id="canvascontainer"></div>
+  <p>
+    speed: <input id="speedSlider" type="range" min="1" max="20" value="1"> <span id="speed">1</span>
+    <br /> Generation at: <span id="gen">0</span>
+    <br /> all time high score: <span id="ahs">0</span>
+  </p>
 </body>
 
 </html>
