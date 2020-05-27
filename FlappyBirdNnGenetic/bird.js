@@ -10,7 +10,7 @@ function Bird(decisionMaker) {
   if (decisionMaker instanceof NeuralNetwork) {
     this.decisionMaker = decisionMaker.copy();
   } else {
-    this.decisionMaker = new NeuralNetwork(5, 8, 2);
+    this.decisionMaker = new NeuralNetwork(5, 2, 2);
   }
 
 

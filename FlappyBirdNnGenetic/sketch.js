@@ -20,6 +20,7 @@ let generationCounter = 1;
 let imgBird;
 let imgPipe;
 let imgBackground;
+let maxGenerationCounter = 25;
 
 function preload() {
   imgBird = loadImage('img/bird.png');
@@ -83,7 +84,7 @@ function draw() {
         bird.y = 0;
       }
       if (bird.score == scoreLimit) {
-        let div = createDiv('----Reached score 2k---- ').size(400, 100);
+        let div = createDiv('----Reached score 10k---- ').size(400, 100);
         div.html('bestScore reached at generation:' + generationCounter, true);
         noLoop();
       }
@@ -92,6 +93,11 @@ function draw() {
           bestBird = bird.copy();
           bestScore = bird.score;
           bestScoreSpan.html(bestScore);
+          if (bestScore % 1000 == 0 && bestScore <= 5000) {
+            /*let div = createDiv('----Reached score ' + bestScore + '---- ').size(400, 100);
+            div.html('bestScore reached at generation:' +
+              generationCounter, true);*/
+          }
           //console.log(bestScore, generationCounter);
         }
       }
