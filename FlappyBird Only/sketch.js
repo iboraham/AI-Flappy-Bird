@@ -1,10 +1,13 @@
 var bird;
 var pipes = []
 var score = 0;
+var freeze;
 
 function preload() {
   bird_pic = loadImage('img/bird.png');
   background_img = loadImage('img/background.jpg');
+  pipe_img = loadImage('img/pipe.png');
+  rev_pipe_img = loadImage('img/rev_pipe.png')
 }
 
 function setup() {
@@ -15,21 +18,26 @@ function setup() {
 function resetSketch() {
   pipes = []
   bird = new Bird(bird_pic);
-  pipes.push(new Pipe());
-  //background(background_img);
   loop();
   score = 0;
+  freeze = 0;
 }
 
 function gameOver() {
   textSize(24);
   textAlign(CENTER, CENTER);
-  text('Press Enter for Start Game', width / 2, height / 2);
+  text('Game Over! \nPress Enter for Start Game!', width / 2, height / 2);
   fill(0, 102, 153);
+  frameCount = 0;
   noLoop();
 }
 
 function draw() {
+
+  if (frameCount % 70 == 0) {
+    pipes.push(new Pipe());
+  }
+
   background(background_img);
   bird.update();
   bird.show();
@@ -38,28 +46,28 @@ function draw() {
   text('Score: ' + score, 0, 18);
   fill(0, 102, 153);
 
-  if (frameCount % 50 == 0) {
-    pipes.push(new Pipe());
+  for (var pipe of pipes) {
+    pipe.show();
   }
-
-  if (bird.y >= 450) {
-    if (frameCount % 40 == 0) {
-      gameOver();
+  var flag = 0;
+  for (var pipe of pipes) {
+    if (pipe.hits(bird)) {
+      flag++;
     }
   }
+
   for (var pipe of pipes) {
     var i = 0;
-    pipe.show();
-    pipe.update();
+    if (flag == 0 && freeze == 0) {
+      pipe.update();
+    }
     if (pipe.offscreen()) {
       pipes.splice(i, 1)
     }
     if (pipe.hits(bird)) {
-      bird.velocity = 0;
-      bird.x = pipe.x;
-      if (frameCount % 100 == 0) {
-        gameOver();
-      }
+      freeze = 1;
+      bird.velocity = 3;
+      //bird.x = pipe.x - bird.w;
     }
     if (pipe.passedPipe(bird)) {
       score += 1;
@@ -69,7 +77,7 @@ function draw() {
 }
 
 function keyPressed() {
-  if (keyCode == 32) {
+  if (keyCode == 32 && freeze == 0) {
     bird.up();
   }
   if (keyCode == ENTER) {
