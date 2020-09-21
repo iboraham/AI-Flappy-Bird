@@ -9,19 +9,28 @@
 </head>
 
 <body>
-  <script src="customLib/nn-i.js"></script>
   <script src="sketch.js"></script>
   <script src="pipe.js"></script>
   <script src="bird.js"></script>
-  <script src="customLib/ga.js"></script>
+  <script src="lib/ga.js"></script>
   <script src="lib/nn.js"></script>
   <script src="lib/matrix.js"></script>
-  <div id="canvascontainer"></div>
-  <p>
-    speed: <input id="speedSlider" type="range" min="1" max="20" value="1"> <span id="speed">1</span>
-    <br /> Generation at: <span id="gen">0</span>
-    <br /> all time high score: <span id="ahs">0</span>
-  </p>
+  <div class="row">
+    <div class="column">
+      <div id="canvascontainer"></div>
+      <p>
+        <br /> Generation at: <span id="gen">0</span>
+        <br /> all time high score: <span id="ahs">0</span>
+        <br /> Number of survived birds: <span id="act">0</span>
+      </p>
+    </div>
+    <div class="column">
+      <iframe title="Play yourself" width="400" height="720" src="https://editor.p5js.org/iboraham/embed/o_-nhlEhy"></iframe>
+      <p>
+        Race with AI!
+      </p>
+    </div>
+  </div>
 </body>
 
 </html>

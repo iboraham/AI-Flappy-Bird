@@ -1,12 +1,17 @@
 function Bird(decisionMaker) {
-  this.y = height / 2;
-  this.x = 64;
 
-  this.gravity = 0.7;
-  this.lift = -12;
+  var max_height = height - 116;
+  this.y = (max_height - 100) / 2;
+  this.x = 40;
+  this.velocity = 0;
+  this.lift = -9;
+  this.gravity = 0.5;
+  this.w = 32;
+
   this.velocity = 0;
   this.score = 0;
   this.fitness = 0;
+
   if (decisionMaker instanceof NeuralNetwork) {
     this.decisionMaker = decisionMaker.copy();
   } else {
@@ -15,9 +20,7 @@ function Bird(decisionMaker) {
 
 
   this.show = function() {
-    stroke(255);
-    fill(GRAY);
-    image(imgBird, this.x, this.y, 64, 64);
+    image(imgBird, this.x, this.y, this.w * 1.4, this.w);
   }
 
   this.up = function() {
@@ -26,15 +29,16 @@ function Bird(decisionMaker) {
 
   this.update = function() {
     this.velocity += this.gravity;
-    // this.velocity *= 0.9;
     this.y += this.velocity;
 
     this.score += 1;
-
+    if (this.y < 0) {
+      this.y = 0;
+      this.velocity = 0;
+    }
   }
 
   this.decide = function(pipes) {
-    //5 inputs
     let inputs = []
     if (pipes.length != 0) {
       inputs[0] = map(this.x, this.x, width, -1, 1);
