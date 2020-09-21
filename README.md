@@ -4,6 +4,7 @@
   <a href="https://github.com/iboraham/AI-Flappy-Bird/blob/master/README.md" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
   </a>
+  <img src='https://bettercodehub.com/edge/badge/iboraham/AI-Flappy-Bird?branch=master'>
   <a href="https://github.com/iboraham/AI-Flappy-Bird/blob/master/LICENSE" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
