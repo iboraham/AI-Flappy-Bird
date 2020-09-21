@@ -17,7 +17,9 @@
 
 ### 🏠 [Homepage](https://github.com/iboraham/AI-Flappy-Bird)
 
-### ✨ [Demo](https://editor.p5js.org/iboraham/present/OOT8c-nLL)
+### ▶️ [Race with AI](https://editor.p5js.org/iboraham/present/OOT8c-nLL)
+
+### ▶️ [Play just Flappy-Bird](https://editor.p5js.org/iboraham/present/o_-nhlEhy)
 
 ## Install
 
