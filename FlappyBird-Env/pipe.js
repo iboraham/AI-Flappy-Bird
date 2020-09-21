@@ -8,11 +8,7 @@ function Pipe() {
   this.speed = 4;
 
   this.show = function() {
-    fill(0, 255, 0);
-    smooth();
-    image(rev_pipe_img, this.x, 0, this.w, this.top); //upper pipe
-    //rect(this.x, 0, this.w, this.top);
-    //rect(this.x, this.bottom, this.w, max_height - this.bottom);
+    image(rev_pipe_img, this.x, 0, this.w, this.top);
     image(pipe_img, this.x, this.bottom, this.w, max_height - this.bottom); //lower pipe
   }
   this.update = function() {
