@@ -3,13 +3,11 @@ function Bird(bird_pic) {
   this.y = (max_height - 100) / 2;
   this.x = 40;
   this.velocity = 0;
-  this.lift = 9;
-  this.gravity = 0.5;
+  this.lift = 12;
+  this.gravity = 0.7;
   this.w = 32;
   this.show = function() {
-    //fill(255);
     image(bird_pic, this.x, this.y, this.w * 1.4, this.w);
-    //rect(this.x, this.y, this.w, this.w);
   }
   this.update = function() {
     this.velocity += this.gravity;

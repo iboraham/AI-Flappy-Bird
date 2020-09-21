@@ -1,7 +1,7 @@
-var bird;
-var pipes = []
-var score = 0;
-var freeze;
+let bird;
+let pipes = []
+let score = 0;
+let freeze;
 
 function preload() {
   bird_pic = loadImage('img/bird.png');
@@ -46,6 +46,11 @@ function draw() {
   text('Score: ' + score, 0, 18);
   fill(0, 102, 153);
 
+  check_pipes()
+
+}
+
+function check_pipes() {
   for (var pipe of pipes) {
     pipe.show();
   }
@@ -55,7 +60,6 @@ function draw() {
       flag++;
     }
   }
-
   for (var pipe of pipes) {
     var i = 0;
     if (flag == 0 && freeze == 0) {
@@ -67,7 +71,6 @@ function draw() {
     if (pipe.hits(bird)) {
       freeze = 1;
       bird.velocity = 3;
-      //bird.x = pipe.x - bird.w;
     }
     if (pipe.passedPipe(bird)) {
       score += 1;
