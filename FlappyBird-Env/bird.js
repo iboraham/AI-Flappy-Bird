@@ -6,9 +6,11 @@ function Bird(bird_pic) {
   this.lift = 12;
   this.gravity = 0.7;
   this.w = 32;
+
   this.show = function() {
     image(bird_pic, this.x, this.y, this.w * 1.4, this.w);
   }
+
   this.update = function() {
     this.velocity += this.gravity;
     this.y += this.velocity;
