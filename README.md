@@ -31,7 +31,7 @@ git clone https://github.com/iboraham/AI-Flappy-Bird.git
 
 👤 **I.Onur Serbetci**
 
-* Website: codewars.com/users/iboraham
+* Website: iboraham.github.io
 * Twitter: [@iboraham](https://twitter.com/iboraham)
 * Github: [@iboraham](https://github.com/iboraham)
 * LinkedIn: [@ionur-serbetci](https://linkedin.com/in/ionur-serbetci)
